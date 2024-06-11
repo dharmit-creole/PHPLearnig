@@ -30,7 +30,8 @@
                 padding: 10px 20px;
                 cursor: pointer !important;
             }
-            input[type="radio"] {
+            input[type="radio"],
+            input[type="checkbox"] {
                 width: 18px;
                 height: 18px;
             }
@@ -38,7 +39,8 @@
     </head>
     <body>
         <?php
-            if($_SERVER["REQUEST_METHOD"] == "POST") {
+            if($_POST) {
+                print_r($_POST);
                 if (empty($_POST["name"])) {
                     $nameErr = "Pleae Fill the field";
                 } else {
@@ -64,11 +66,17 @@
                 } else {
                     $gender = ($_POST["gender"]);
                 }
+
+                if (empty($_POST["skills"])) {
+                    $skillsErr = "Pleae Fill the field";
+                } else {
+                    $skills = implode(",", $_POST["skills"]);
+                }
             }
         ?>
 
         <h1>Form Validation</h1>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+        <form method="post" action="" >
             <div class="form-group">
                 <label for="">Enter Name <span class="required">*</span></label>
                 <input type="text" name="name" Plcaholder="Please Enter Your Name">
@@ -98,6 +106,17 @@
             </div>
             </br>
             </br>
+            <div class="form-group">
+                <label for="">Enter Your Skills <span class="required">*</span></label>
+                <input type="checkbox" name="skills[]" value="react">React
+                <input type="checkbox" name="skills[]" value="wordpress">Wordpress
+                <input type="checkbox" name="skills[]" value="html-css">HTML,CSS
+                <div class="error">
+                    <?php echo $skillsErr; ?>
+                </div>
+            </div>
+            </br>
+            </br>
             <input type="submit" name="submit" value="Submit">  
         </form>
         <?php
@@ -106,6 +125,8 @@
             echo $email;
             echo "<br>";
             echo $gender;
+            echo "<br>";
+             echo $skills;
         ?>
         <script src="" async defer></script>
     </body>
